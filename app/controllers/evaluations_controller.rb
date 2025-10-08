@@ -1,6 +1,6 @@
 class EvaluationsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def create
     cv_id = params[:cv_file_id]

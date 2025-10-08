@@ -164,8 +164,14 @@ class LlmService
           temperature: temp,
           max_completion_tokens: 2000
         )
-        content = response.dig("choices", 0, "message", "content") || ""
-        return content.to_s
+        content =
+          if response.respond_to?(:choices)
+            response.choices.first&.message&.content.to_s
+          else
+            response.dig("choices", 0, "message", "content").to_s
+          end
+
+        return content
       end
 
     rescue => e

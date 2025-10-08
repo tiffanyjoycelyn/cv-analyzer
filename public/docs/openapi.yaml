@@ -20,7 +20,7 @@ tags:
     description: Devise-based user session endpoints
 
 paths:
-  /api/ingestions:
+  /api/ingest:
     post:
       tags: [Ingestion]
       summary: Upload and ingest a document
@@ -49,7 +49,7 @@ paths:
                   file_id: { type: string }
                   doc_type: { type: string }
 
-  /api/evaluations:
+  /api/evaluate:
     post:
       tags: [Evaluation]
       summary: Create an evaluation job for CV and Project
@@ -73,7 +73,7 @@ paths:
                   job_id: { type: integer }
                   status: { type: string }
 
-  /api/evaluations/{id}:
+  /api/result/{id}:
     get:
       tags: [Evaluation]
       summary: Check the status or result of an evaluation job
@@ -101,7 +101,7 @@ paths:
                       cv_feedback: { type: string }
                       project_feedback: { type: string }
 
-  /api/analyzes:
+  /api/analyze:
     post:
       tags: [Analysis]
       summary: Run direct analysis (bypass job queue)

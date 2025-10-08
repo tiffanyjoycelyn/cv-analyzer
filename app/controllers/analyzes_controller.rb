@@ -1,6 +1,6 @@
 class AnalyzesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def create
     file_id = params[:file_id]
