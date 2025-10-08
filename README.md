@@ -14,62 +14,42 @@ It combines backend engineering, prompt design, retrieval (RAG), and resilience 
 
 ### Installation
 
-#### 1️⃣ Clone the repository
+#### 1. Clone the repository
 ```bash
 git clone https://github.com/tiffanyjoycelyn/cv-analyzer.git
 cd cv-analyzer
 bundle install
-rails db:create db:migrate
-```
-#### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/tiffanyjoycelyn/cv-analyzer.git
-cd cv-analyzer
-bundle install
-rails db:create db:migrate
-```
-#### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/tiffanyjoycelyn/cv-analyzer.git
-cd cv-analyzer
-bundle install
-rails db:create db:migrate
 ```
 
-#### 2️⃣ Install dependencies
+#### 2. Install dependencies
 ```bash
 bundle install
 yarn install --check-files
 ```
-#### 3️⃣ Configure environment variables
+#### 3. Configure environment variables
 ```bash
 # .env
 OPENAI_API_KEY=your_openai_api_key
 LLM_MODEL=gpt-4o-mini
 LLM_TEMPERATURE=0.2
 ```
-#### 4️⃣ Set up the database
+#### 4. Set up the database
 ```bash
 rails db:create
 rails db:migrate
 ```
-#### 5️⃣ Run background job processor (Sidekiq)
+#### 5. Run background job processor (Sidekiq)
 ```bash
 bundle exec sidekiq
 ```
-#### 6️⃣ Run the Rails server
+#### 6. Run the Rails server
 ```bash
 rails s
 ```
-#### 7️⃣ Run Qdrant (Vector Database) locally
+#### 7. Run Qdrant (Vector Database) locally
 ```bash
 docker run -p 6333:6333 qdrant/qdrant
 ```
-#### 8️⃣ Visit Swagger Docs
-```bash
-http://localhost:3000/api-docs
-```
-
 
 ### System Overview
 ```mermaid
@@ -98,7 +78,7 @@ graph TD
 ```
 
 
-### 🗄️ Database Schema
+### Database Schema
 
 ```mermaid
 erDiagram
@@ -151,3 +131,5 @@ erDiagram
         datetime created_at
     }
 ````
+### Successful Job
+[1000262356](https://github.com/user-attachments/assets/df6fcee8-a0ac-4262-98f7-9e03573aa2d8)
