@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: CV Analyzer API
+  version: 1.0.0
+  description: >
+    AI-powered CV and project evaluation system using LLMs, RAG, and background jobs.
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: Ingestion
+    description: Upload and register files
+  - name: Evaluation
+    description: Run background evaluations
+  - name: Analysis
+    description: AI-driven scoring and feedback retrieval
+  - name: Authentication
+    description: Devise-based user session endpoints
+
+paths:
+  /api/ingestions:
+    post:
+      tags: [Ingestion]
+      summary: Upload and ingest a document
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                doc_type:
+                  type: string
+                  enum: [cv, project]
+      responses:
+        "200":
+          description: File successfully uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+                  file_id: { type: string }
+                  doc_type: { type: string }
+
+  /api/evaluations:
+    post:
+      tags: [Evaluation]
+      summary: Create an evaluation job for CV and Project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cv_file_id: { type: string }
+                project_file_id: { type: string }
+      responses:
+        "202":
+          description: Evaluation job created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id: { type: integer }
+                  status: { type: string }
+
+  /api/evaluations/{id}:
+    get:
+      tags: [Evaluation]
+      summary: Check the status or result of an evaluation job
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Job result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id: { type: integer }
+                  status: { type: string }
+                  result:
+                    type: object
+                    properties:
+                      cv_match_rate: { type: number }
+                      project_score: { type: number }
+                      overall_summary: { type: string }
+                      cv_feedback: { type: string }
+                      project_feedback: { type: string }
+
+  /api/analyzes:
+    post:
+      tags: [Analysis]
+      summary: Run direct analysis (bypass job queue)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file_id: { type: string }
+                doc_type: { type: string, enum: [cv, project] }
+      responses:
+        "200":
+          description: Immediate analysis result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  score: { type: number }
+                  feedback: { type: string }
+
+  /users/sign_in:
+    post:
+      tags: [Authentication]
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id: { type: integer }
+                  auth_token: { type: string }
+
+  /users/sign_out:
+    delete:
+      tags: [Authentication]
+      summary: Log out the current user
+      responses:
+        "204":
+          description: Logged out successfully
